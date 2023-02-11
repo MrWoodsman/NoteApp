@@ -54,7 +54,6 @@ function ToggleFolder(e) {
         e.parentNode.parentNode.children[1].style.display = 'block'
     }
 }
-
 function HiglideActivDirectory(type,id) {
     document.querySelectorAll('.note').forEach((x) => {
         x.classList.remove('active')
@@ -102,6 +101,7 @@ function OpenFolder(e) {
         actual_folder = parseInt(e.getAttribute('dbid'))
         // 
         mainScreen.innerHTML = ``
+        HiglideActivDirectory('folder',actual_folder)
     } else {
         // console.warn(2);
         //! Notatka
@@ -115,6 +115,7 @@ function OpenFolder(e) {
         actual_note = parseInt(e.getAttribute('dbid'))
         // 
         mainScreen.innerHTML = `<p>${clickedNote.content}</p>`
+        HiglideActivDirectory('note',actual_note)
     }
     // document.querySelector('3').getAttribute
 }
@@ -178,7 +179,7 @@ function updateMainScreen() {
         mainScreen.innerHTML = `<p>${clickedNote.content}</p>`
         HiglideActivDirectory('note',actual_note)
     }
-    console.warn(actual_folder, actual_note);
+    // console.warn(actual_folder, actual_note);
 }
 
 function GoBack() {
