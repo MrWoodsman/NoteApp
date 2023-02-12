@@ -247,12 +247,12 @@ function CreateFolderAndNotes() {
             note.classList.add('note')
             if (i == e.notes.length - 1) {
                 note.innerHTML = `
-                    <div class="pathBox"><div class="next_arrow"></div></div><h1 onclick="OpenFolder(this)" dbid="${element.id}" type="note" class="noteName">${fileContent} ${element.name}</h1>
+                    <div class="pathBox"><img src='assets/end.svg'></div><h1 onclick="OpenFolder(this)" dbid="${element.id}" type="note" class="noteName">${fileContent} ${element.name}</h1>
                 <i onclick="editFolder(this)" class="bi bi-three-dots edit"></i>
                 `
             } else {
                 note.innerHTML = `
-                    <div class="pathBox"><div class="next_arrow"></div><div class="down"></div></div><h1 onclick="OpenFolder(this)" dbid="${element.id}" type="note" class="noteName">${fileContent} ${element.name}</h1>
+                    <div class="pathBox"><img src='assets/next.svg'></div><h1 onclick="OpenFolder(this)" dbid="${element.id}" type="note" class="noteName">${fileContent} ${element.name}</h1>
                 <i onclick="editFolder(this)" class="bi bi-three-dots edit"></i>
                 `
             }
