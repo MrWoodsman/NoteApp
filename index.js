@@ -413,3 +413,15 @@ function removeData(e) {
     CreateFolderAndNotes()
     updateMainScreen()
 }
+//* Zwijanie menu
+var menuOpen = true
+function foldMenu(e) {
+    const leftMenu = document.querySelector('#left_menu')
+    if (menuOpen) {
+        leftMenu.style.display = 'none'
+        menuOpen = false
+    } else {
+        leftMenu.style.display = 'grid'
+        menuOpen = true
+    }
+}

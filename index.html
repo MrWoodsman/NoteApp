@@ -28,18 +28,19 @@
     </div>
     <!--! Edit Name itp -->
     <div class="box" id="TopMenu_box">
+        <div id="openMenu" onclick="foldMenu()"><i class="bi bi-arrow-bar-right"></i></div>
         <div class="controls">
             <i class="bi bi-caret-left-fill two backBTN"></i>
             <i class="bi bi-caret-right-fill two nextBTN"></i>
         </div>
         <div id="path_structure"></div>
     </div>
-    <div class="left_menu">
+    <div class="left_menu" id="left_menu">
         <!--! Display settings -->
         <div class="box mini_box" id="control_display_box">
             <div class="dispalyBTN" onclick="hideAllFolders()"><i class="bi bi-box-arrow-in-up"></i></div>
             <div class="dispalyBTN" onclick="showAllFolders()"><i class="bi bi-box-arrow-down"></i></div>
-            <div class="dispalyBTN"></div>
+            <div class="dispalyBTN" id="closeMenu" onclick="foldMenu()"><i class="bi bi-x-lg"></i></div>
         </div>
         <!--! Note list -->
         <div class="box" id="note_list_box">
