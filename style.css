@@ -390,7 +390,6 @@ body {
     min-height: calc(100vh - 1px);
     max-height: calc(100vh - 1px);
     background: #444444;
-    background: blue;
     color: whitesmoke;
   }
   .left_menu {
