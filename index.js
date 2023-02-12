@@ -142,7 +142,6 @@ function OpenFolder(e) {
         actual_folder = Folder.indexOf(findFolder(parseInt(e.getAttribute('dbid'))))+1
         actual_note = 0
         // 
-        console.warn(actual_folder, actual_note);
         const selFolder = Folder.indexOf(Folder[actual_folder-1])
         // const selNote = Folder[selFolder].notes.indexOf(Folder[actual_folder-1].notes[id-1])
         // 
