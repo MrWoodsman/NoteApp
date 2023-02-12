@@ -139,8 +139,12 @@ function OpenFolder(e) {
         structurPath.innerHTML = path
         //! Ładowanie wyświetlania contentu
         // 
-        actual_folder = parseInt(e.getAttribute('dbid'))
+        actual_folder = Folder.indexOf(findFolder(parseInt(e.getAttribute('dbid'))))+1
         actual_note = 0
+        // 
+        console.warn(actual_folder, actual_note);
+        const selFolder = Folder.indexOf(Folder[actual_folder-1])
+        // const selNote = Folder[selFolder].notes.indexOf(Folder[actual_folder-1].notes[id-1])
         // 
         const tableIndex = Folder.indexOf(findFolder(parseInt(e.getAttribute('dbid'))))
         mainScreen.classList.add('grid')
@@ -159,7 +163,7 @@ function OpenFolder(e) {
         structurPath.innerHTML = `${path}<p>${e.innerText}</p>`
         const clickedNote = findNote(parseInt(FolderElement.getAttribute('dbid')),parseInt(e.getAttribute('dbid')));
         // 
-        actual_folder = parseInt(FolderElement.getAttribute('dbid'))
+        actual_folder = Folder.indexOf(findFolder(parseInt(FolderElement.getAttribute('dbid'))))+1
         actual_note = parseInt(e.getAttribute('dbid'))
         //* Aktualizacja ekranu głównego
         mainScreen.innerHTML = `<p>${clickedNote.content}</p>`
