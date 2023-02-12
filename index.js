@@ -420,6 +420,7 @@ function removeData(e) {
 var menuOpen = true
 function foldMenu(e) {
     const leftMenu = document.querySelector('#left_menu')
+    document.body.classList.toggle('hideMenu')
     if (menuOpen) {
         leftMenu.style.display = 'none'
         menuOpen = false
