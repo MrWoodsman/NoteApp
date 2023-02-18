@@ -8,7 +8,7 @@ var Folder = [
         {"id":1,"name":"Moja pierwsza notatka","content":"Ciesz się każdym dniem jakby był ostatnim."},
         {"id":2,"name":"test #2","content":"Szukaj szczęścia w prostych rzeczach."},
         {"id":3,"name":"test #3","content":"Miej odwagę być sobą."},
-        {"id":4,"name":"test #4","content":"Miej odwagę być sobą."}
+        {"id":4,"name":"test #4","content":"Miej odwagę być sobą. <ul><li>TEST</li></ul>"}
     ]
     },
     {
@@ -46,9 +46,10 @@ var Folder = [
     }
 ]
 //!
+var mobileSize = 350;
 //* Zmienne aktalnie otwartego folderu / notatki
-var actual_folder = 1
-var actual_note = 0
+var actual_folder = 1 //! zeby pobrac dane z array to -1
+var actual_note = 1 //! zeby pobrac dane z array to -1
 //* Pozycja myszki
 var mouseX = 0
 var mouseY = 0
@@ -61,6 +62,7 @@ const mainScreen = document.querySelector('#main_screen_box')
 const structurPath = document.querySelector('#path_structure')
 const box = document.querySelector('#note_list_box')
 const editBox = document.querySelector('#edit_box')
+const mainScreenID = document.querySelector('#content')
 //* Aktalizacja pozycji myszki
 function updateDisplay(event) {
     mouseX = event.pageX;
@@ -132,6 +134,7 @@ function HiglideActivDirectory(type,id) {
 //* Funkcja odpowiadająca za oteiranie folderu/notatki
 function OpenFolder(e) {
     //* Zmienna sciezki
+    console.warn(mainScreenID);
     var path = ''
     //* Określanie co trzeba otworzyć [ folder / notatka ]
     if(e.getAttribute('type') == 'folder') {    //* Folder
@@ -146,17 +149,16 @@ function OpenFolder(e) {
         // const selNote = Folder[selFolder].notes.indexOf(Folder[actual_folder-1].notes[id-1])
         // 
         const tableIndex = Folder.indexOf(findFolder(parseInt(e.getAttribute('dbid'))))
-        mainScreen.classList.add('grid')
-        mainScreen.innerHTML = ``
+        mainScreenID.classList.add('grid')
         Folder[tableIndex].notes.forEach((b) => {
-            mainScreen.innerHTML += `<div onclick="OpenFolder(this)" dbid="${b.id}" class="mini_note">
+            mainScreenID.innerHTML = `<div onclick="OpenFolder(this)" dbid="${b.id}" class="mini_note">
                 <h1 class="title">${b.name}</h1>
                 <p class="content">${b.content}</p>
             </div>`
         })
         HiglideActivDirectory('folder',actual_folder)
     } else if (e.getAttribute('type') == 'note') {    //* Notatka
-        mainScreen.classList.remove('grid')
+        mainScreenID.classList.remove('grid')
         const FolderElement = e.parentNode.parentNode.parentNode.children[0].children[1]
         var path = `<p>${FolderElement.innerText}</p><p>></p>`
         structurPath.innerHTML = `${path}<p>${e.innerText}</p>`
@@ -165,10 +167,10 @@ function OpenFolder(e) {
         actual_folder = Folder.indexOf(findFolder(parseInt(FolderElement.getAttribute('dbid'))))+1
         actual_note = parseInt(e.getAttribute('dbid'))
         //* Aktualizacja ekranu głównego
-        mainScreen.innerHTML = `<p>${clickedNote.content}</p>`
+        mainScreenID.innerHTML = `<p>${clickedNote.content}</p>`
         HiglideActivDirectory('note',actual_note)
     } else {
-        mainScreen.classList.remove('grid')
+        mainScreenID.classList.remove('grid')
         const FolderElement = findFolder(actual_folder)
         var path = `<p>${FolderElement.name}</p><p>></p>`
         const clickedNote = findNote(parseInt(FolderElement.id),parseInt(e.getAttribute('dbid')));
@@ -177,7 +179,7 @@ function OpenFolder(e) {
         actual_folder = parseInt(FolderElement.id)
         actual_note = parseInt(e.getAttribute('dbid'))
         //* Aktualizacja ekranu głównego
-        mainScreen.innerHTML = `<p>${clickedNote.content}</p>`
+        mainScreenID.innerHTML = `<p>${clickedNote.content}</p>`
         HiglideActivDirectory('note',actual_note)
     }
 }
@@ -188,30 +190,38 @@ function GenerateEditBox(e) {
     //* Przesuniecie w góre
     if (e.parentNode.children[1].getAttribute('type') == 'folder') {
         EditSelected = findFolder(parseInt(dbid))
+        const editName = document.createElement('p')
+        editName.innerHTML = `${EditSelected.name}`
+        editName.classList.add('EditName')
+        editBox.appendChild(editName)
         EditSelectedFolder = null
         //* Jeśli edytowany jest folder
         if (Folder.indexOf(findFolder(parseInt(dbid))) != 0) {
             const event = document.createElement('div')
-            event.innerHTML = `<p moveNum="-1" onclick="moveFolder(this)"><i class="bi bi-arrow-up"></i> Move Up Folder</p>`
+            event.innerHTML = `<p class="event" moveNum="-1" onclick="moveFolder(this)"><i class="bi bi-arrow-up"></i> Move Up Folder</p>`
             editBox.appendChild(event)
         }
         //* Przesunięcie w dół
         if (Folder.indexOf(findFolder(parseInt(dbid))) != Folder.length-1) {
             const event = document.createElement('div')
-            event.innerHTML = `<p moveNum="1" onclick="moveFolder(this)"><i class="bi bi-arrow-down"></i> Move Down Folder</p>`
+            event.innerHTML = `<p class="event" moveNum="1" onclick="moveFolder(this)"><i class="bi bi-arrow-down"></i> Move Down Folder</p>`
             editBox.appendChild(event)
         }
         //* Usuwanie
         const event = document.createElement('div')
-        event.innerHTML = `<p onclick="removeData(this)"><i class="bi bi-trash3"></i> Remove Folder</p>`
+        event.innerHTML = `<p class="event" onclick="removeData(this)"><i class="bi bi-trash3"></i> Remove Folder</p>`
         editBox.appendChild(event)
     } else if (e.parentNode.children[1].getAttribute('type') == 'note') {
         const FolderId = e.parentNode.parentNode.parentNode
         EditSelected = findNote(parseInt(FolderId.getAttribute('dbid')),parseInt(dbid))
         EditSelectedFolder = findFolder(parseInt(FolderId.getAttribute('dbid')))
+        const editName = document.createElement('p')
+        editName.innerHTML = `${EditSelected.name}`
+        editName.classList.add('EditName')
+        editBox.appendChild(editName)
         //* Usuwanie
         const event = document.createElement('div')
-        event.innerHTML = `<p onclick="removeData(this)"><i class="bi bi-trash3"></i> Remove Note</p>`
+        event.innerHTML = `<p class="event" onclick="removeData(this)"><i class="bi bi-trash3"></i> Remove Note</p>`
         editBox.appendChild(event)
     }
 }
@@ -220,9 +230,18 @@ function editFolder(e) {
     console.warn();
     GenerateEditBox(e)
     EditVisable = true
-    editBox.style.left = `${mouseX-3}px`
-    editBox.style.top = `${mouseY-3}px`
     editBox.style.display = 'block'
+    if (window.screen.width <= 350) { //* { Mobile }
+
+    } else { //* { Desktop }
+        editBox.style.left = `${mouseX-3}px`
+        editBox.style.top = `${mouseY-3}px`
+    
+        if (editBox.offsetLeft+editBox.clientWidth >= window.screen.width) {
+            editBox.style.left = `${mouseX-editBox.clientWidth*1.75}px`
+        }
+    }
+
 }
 //* Tworzenie wszystkich folderów oraz notatek w nich ( tymczasowo dane są pobierane z lokalnego arraya )
 //* W przyszłości wprowadzenie pobierania z bazy danych od konkretnego użytkownika
@@ -273,13 +292,13 @@ function updateMainScreen() {
         var path = `<p>${element.name}</p>`
         structurPath.innerHTML = path
         //* Ładowanie wyświetlania contentu
-        mainScreen.innerHTML = ``
+        mainScreenID.innerHTML = ``
         HiglideActivDirectory('folder',actual_folder)
         //! Ładowanie wyświetlania contentu
-        mainScreen.classList.add('grid')
-        mainScreen.innerHTML = ``
+        mainScreenID.classList.add('grid')
+        mainScreenID.innerHTML = ``
         element.notes.forEach((b) => {
-            mainScreen.innerHTML += `<div onclick="OpenFolder(this)" dbid="${b.id}" class="mini_note">
+            mainScreenID.innerHTML = `<div onclick="OpenFolder(this)" dbid="${b.id}" class="mini_note">
                 <h1 class="title">${b.name}</h1>
                 <p class="content">${b.content}</p>
             </div>`
@@ -290,7 +309,7 @@ function updateMainScreen() {
         var path = `<p>${element.name}</p><p>></p>`
         structurPath.innerHTML = `${path}<p>${clickedNote.notes[actual_note-1].name}</p>`
         //* Ładowanie wyświetlania contentu
-        mainScreen.innerHTML = `<p>${clickedNote.notes[actual_note-1].content}</p>`
+        mainScreenID.innerHTML = `<p>${clickedNote.notes[actual_note-1].content}</p>`
         HiglideActivDirectory('note',actual_note)
     }
 }
@@ -341,10 +360,10 @@ document.querySelectorAll('.nextBTN').forEach((e) => {
 //* Dodawanie nasłuchiwania do elementów z klasą [ backBTN ]
 //* Dodawanie możliwości przewijania sie pomiędzy notatkami i folderami przy użyciu strzałek
 document.addEventListener('keydown', (e) => {
-    if (e.code == 'ArrowRight') {
+    if (e.code == 'PageUp') {
         GoNext()
     }
-    if (e.code == 'ArrowLeft') {
+    if (e.code == 'PageDown') {
         GoBack()
     }
 })
@@ -371,11 +390,35 @@ function closeEditBox() {
     EditSelected = null
     EditSelectedFolder = null
 }
-//* Zamykanie okna edycji jeśli myszka jest poza
+//* Zamykanie okna edycji jeśli myszka jest poza { Desktop }
 editBox.onmouseleave = function(e) {
     // mouseOn = true
     if(EditVisable == true) {
         closeEditBox()
+    }
+}
+//* Zamykanie menu edycji { Mobile }
+document.ontouchstart = function(e) {
+    if (EditVisable) {
+        var c_x = e.touches[0].clientX
+        var c_y = e.touches[0].clientY
+
+        var tet = editBox.getBoundingClientRect();
+        c_x = c_y - tet.top
+
+        if (window.screen.width <= mobileSize) {
+            if (c_y < 0) {
+                closeEditBox()
+            }
+        } else {
+            var er = 0
+            //* Sprawdzanie lewo / prawo
+            if (c_x < editBox.offsetLeft || c_x > editBox.offsetLeft+editBox.clientWidth) { er += 1 }
+            //* Sprawdzanie góra / dół
+            if (c_y >= editBox.offsetTop || c_y <= editBox.offsetTop+editBox.clientHeight) { er += 1 }
+            //* Zamykanie jeśli jakiś warunek spełniony
+            if (er > 0) { closeEditBox() }
+        }
     }
 }
 //* Przesuwanie elementu o jeden w góre / dół
@@ -407,6 +450,7 @@ function moveFolder(e) {
 }
 //* Remove Folder / Note 
 function removeData(e) {
+    console.warn(5);
     if (EditSelectedFolder == null) {
         Folder.splice(Folder.indexOf(EditSelected), 1)
     } else {
@@ -414,6 +458,9 @@ function removeData(e) {
         Folder[Folder.indexOf(EditSelectedFolder)].notes.splice(noteIndex, 1)
     }
     CreateFolderAndNotes()
+    closeEditBox()
+    actual_folder = 1
+    actual_note = 0
     updateMainScreen()
 }
 //* Zwijanie menu

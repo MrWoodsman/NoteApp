@@ -7,6 +7,7 @@
     --box_pading: 16px 16px 16px 16px;
     // 
     --color_path: hsl(0, 0%, 25%);
+    --background_color: #444444;
 }
 
 @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
@@ -104,7 +105,8 @@ body {
         i {
             color: var(--text_color);
             line-height: 100%;
-            font-size: .9rem;
+            font-size: 1rem;
+            transform: translateX(-1px) translateY(1px);
         }
         transition: 100ms;
         &:hover {
@@ -115,11 +117,13 @@ body {
 
 #note_list_box {
     --font_size: 1rem;
-    padding: var(--box_pading);
+    // padding: var(--box_pading);
     height: 100%;
     overflow-y: auto;
     .folder {
+        border-bottom: 1px solid var(--background_color);
         .folderNameBox {
+            background: rgba(255, 255, 255, 0.025);
             display: flex;
             gap: 6px;
             padding: 0 16px 0 16px;
@@ -181,7 +185,7 @@ body {
                 width: 100%;
                 cursor: pointer;
                 user-select: none;
-                font-size: var(--font_size);
+                font-size: calc(var(--font_size) + 0rem);
                 font-weight: 500;
                 display: flex;
                 justify-content: space-between;
@@ -191,8 +195,10 @@ body {
             }
         }
         .folderContent {
-            padding: 0 0 0 16px;
-            transform: translateY(-2px) translateX(-2.5px);
+            transform: translateY(0px) translateX(0px);
+            .note:nth-child(even) {
+                background: rgba(255, 255, 255, 0.005);
+            }
             .note {
                 width: 100%;
                 cursor: pointer;
@@ -201,6 +207,7 @@ body {
                 align-items: center;
                 justify-content: flex-start;
                 // padding-left: 16px;
+                padding: 0 0 0 16px;
                 .edit {
                     position: absolute;
                     right: 16px;
@@ -217,8 +224,8 @@ body {
                     white-space: nowrap;
                     overflow: hidden;
                     text-overflow: ellipsis;
-                    width: 100%;
-                    font-size: var(--font_size);
+                    width: calc(100% - 55px);
+                    font-size: calc(var(--font_size) + .0rem);
                     color: hsl(0, 0%, 60%);
                     font-weight: 400;
                     // &::before {
@@ -242,8 +249,8 @@ body {
             clip-path: polygon(0 46%, 50% 50%, 50% 100%, 0 100%);
         }
         img {
-            height: calc(100% + 1px);
-            transform: translateY(-2px);
+            height: calc(100% + 2px);
+            transform: translateY(-2px) translateX(-1px);
         }
         .down {
             position: absolute;
@@ -263,6 +270,7 @@ body {
     gap: 16px;
     .controls {
         user-select: none;
+        display: flex;
         i {
             cursor: pointer;
         }
@@ -274,6 +282,7 @@ body {
             user-select: none;
             color: hsl(0, 0%, 50%);
             font-weight: 400;
+            white-space: nowrap;
         }
         p:last-child {
             color: var(--text_color);
@@ -305,6 +314,66 @@ body {
         &:hover {
             filter: brightness(1.5);
         }
+    }
+}
+
+#text_menu {
+    // background: red;
+    transform: translateX(-16px) translateY(-16px);
+    height: calc(60px);
+    width: calc(100% + 32px);
+    //
+    border-bottom: 1px solid var(--background_color);
+    // 
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    padding: 16px;
+    .button {
+        user-select: none;
+        height: 100%;
+        aspect-ratio: 1;
+        background: orange;
+        border-radius: 4px;
+        // 
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+}
+
+#content {
+    height: calc(100% - 28px);
+    transform: translateY(-16px);
+    width: calc(100% + 16px);
+    padding: 16px 16px 16px 4px;
+    overflow-y: auto;
+    h1, h2, h3, h4, h5, h6, p, ul {
+        max-width: 100%;
+        &:focus {
+            outline: 1px solid white;
+            outline-offset: 3px;
+            outline-style: ;
+        }
+    }
+    h1 {
+        font-size: 24px;
+    }
+    h2 {
+        font-size: 22px;
+    }
+    h3 {
+        font-size: 20px;
+    }
+    h4 {
+        font-size: 18px;
+    }
+    h5 {
+        font-size: 16px;
+    }
+    h6 {
+        max-width: 100%;
+        font-size: 14px;
     }
 }
 
@@ -359,8 +428,8 @@ body {
 }
 
 .active {
-    background: rgba(255, 255, 255, 0.1);
-    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.1) !important;
+    border-radius: 0px;
 }
 
 #edit_box {
@@ -376,7 +445,13 @@ body {
     box-shadow: black 0px 0px 8px 2px;
     border-radius: 8px;
     overflow: hidden;
-    p {
+    .EditName {
+        text-align: center;
+        font-size: .8rem;
+        font-weight: 600;
+        padding: 8px 12px;
+    }
+    .event {
         cursor: pointer;
         user-select: none;
         background: var(--box_lighter);
@@ -404,6 +479,17 @@ body {
 
 //! Media queres
 @media screen and (max-width: 700px) {
+    .edit {
+        position: absolute;
+        right: 16px;
+        pointer-events: none;
+        opacity: .25 !important;
+    }
+    .folderNameBox {
+        i {
+            opacity: .25 !important;
+        }
+    }
     html {
         font-size: 12px;
     }
@@ -495,6 +581,27 @@ body {
             }
         }
     }
+
+    #note_list_box {
+        --font_size: 1rem;
+        // padding: var(--box_pading);
+        height: 100%;
+        overflow-y: auto;
+        .folder {
+            .folderNameBox {
+                .folderName {
+                    font-size: calc(var(--font_size) + .2rem);
+                }
+            }
+            .folderContent {
+                .note {
+                    .noteName {
+                        font-size: calc(var(--font_size) + .1rem);
+                    }
+                }
+            }
+        }
+    }
 }
 //! Media queres
 @media screen and (max-width: 350px) {
@@ -549,5 +656,43 @@ body {
                 font-size: 1rem;
             }
         }
+    }
+
+    #edit_box {
+        display: none;
+        position: absolute;
+        z-index: 100;
+        left: 0;
+        top: 100%;
+        transform: translateY(calc(-100% - 0px));
+        width: 100%;
+        float: right;
+        // width: 50px;
+        // height: 50px;
+        background: var(--box_lighter);
+        box-shadow: black 0px 0px 8px 2px;
+        border-radius: 0px;
+        overflow: hidden;
+        .EditName {
+            text-align: center;
+            font-size: .85rem;
+            font-weight: 600;
+            padding: 8px 12px;
+        }
+        .event {
+            cursor: pointer;
+            user-select: none;
+            background: var(--box_lighter);
+            font-size: .85rem;
+            font-weight: 600;
+            padding: 8px 12px;
+            i {
+                pointer-events: none;
+            }
+            &:hover {
+                filter: brightness(1.5);
+            }
+        }
+        // border: 1px solid white;
     }
 }

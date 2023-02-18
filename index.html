@@ -25,14 +25,17 @@
                 <h1 class="full_name">Full Name</h1>
             </div>
             <div id="logOut">
-                <i class="bi bi-caret-left-fill two"></i>
+                <!-- <i class="bi bi-caret-left-fill two"></i> -->
+                <div id="openMenu" onclick="foldMenu()"><i class="bi bi-arrow-bar-left"></i></div>
+                <!-- <div class="dispalyBTN" id="closeMenu" onclick="foldMenu()"><i class="bi bi-x-lg"></i></div> -->
+
             </div>
         </div>
         <!--! Display settings -->
         <div class="box mini_box" id="control_display_box">
             <div class="dispalyBTN" onclick="hideAllFolders()"><i class="bi bi-box-arrow-in-up"></i></div>
             <div class="dispalyBTN" onclick="showAllFolders()"><i class="bi bi-box-arrow-down"></i></div>
-            <div class="dispalyBTN" id="closeMenu" onclick="foldMenu()"><i class="bi bi-x-lg"></i></div>
+            <div class="dispalyBTN"></div>
         </div>
         <!--! Note list -->
         <div class="box" id="note_list_box">
@@ -57,7 +60,7 @@
     <section class="gridPreset">
             <!--! Edit Name itp -->
     <div class="box" id="TopMenu_box">
-        <div id="openMenu" onclick="foldMenu()"><i class="bi bi-arrow-bar-right"></i></div>
+        <div onclick="foldMenu()"><i class="bi bi-arrow-bar-right"></i></div>
         <div class="controls">
             <i class="bi bi-caret-left-fill two backBTN"></i>
             <i class="bi bi-caret-right-fill two nextBTN"></i>
@@ -65,8 +68,23 @@
         <div id="path_structure"></div>
         </div>
         <!--! Main Note Screen -->
-        <div class="box" id="main_screen_box">4</div>
+        <div class="box" id="main_screen_box">
+            <section id="text_menu">
+                <div class="button" id="createList">L</div>
+                <div class="button create_title" size="1" >H1</div>
+                <div class="button create_title" size="2" >H2</div>
+                <div class="button create_title" size="3" >H3</div>
+                <div class="button create_title" size="4" >H4</div>
+                <div class="button create_title" size="5" >H5</div>
+                <div class="button create_title" size="6" >H6</div>
+                <div class="button" id="create_text">P</div>
+            </section>
+            <section id="content">
+
+            </section>
+        </div>
     </section>
 </body>
     <script src="index.js"></script>
+    <script src="text_edit.js"></script>
 </html>
